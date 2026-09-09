@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "polymarket-info",
+  "version": "0.1.0",
+  "description": "Read-only Polymarket international Info — Gamma discovery + CLOB books/prices. No order signing. Not Polymarket US exchange.",
+  "author": {
+    "name": "Sayo",
+    "email": "hi@sayo.wtf",
+    "url": "https://github.com/wtfsayo"
+  },
+  "homepage": "https://docs.polymarket.com/",
+  "keywords": ["polymarket", "prediction-markets", "gamma", "clob", "mcp"]
+}

@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+TEST-RESULTS.json
+THESIS-SNAPSHOT.json
+*.log
