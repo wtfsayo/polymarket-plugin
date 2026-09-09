@@ -52,3 +52,7 @@ Capital-markets redistribution of Polymarket data may require Polymarket + ICE l
 ## License
 
 MIT
+
+## Repository
+
+https://github.com/wtfsayo/polymarket-plugin
