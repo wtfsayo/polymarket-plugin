@@ -14,6 +14,7 @@
  */
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
+import { createServer as createTcpServer } from "node:net";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
@@ -350,10 +351,23 @@ async function mockPass(base) {
 }
 
 // ── 3. timeout, refused connection, drain on stdin close ───────
+// A port that was just bound and released is closed. Low ports like 1 are on fetch's
+// "bad port" list and fail before connecting, so they never yield ECONNREFUSED.
+function closedPort() {
+  return new Promise((resolve, reject) => {
+    const s = createTcpServer();
+    s.once("error", reject);
+    s.listen(0, "127.0.0.1", () => {
+      const { port } = s.address();
+      s.close(() => resolve(port));
+    });
+  });
+}
+
 async function robustnessPass(base) {
   const env = {
     POLYMARKET_GAMMA_URL: `${base}/hang`,
-    POLYMARKET_CLOB_URL: "http://127.0.0.1:1",
+    POLYMARKET_CLOB_URL: `http://127.0.0.1:${await closedPort()}`,
     POLYMARKET_TIMEOUT_MS: "300",
   };
   const srv = startServer(env);
