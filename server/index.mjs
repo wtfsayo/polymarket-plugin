@@ -764,8 +764,21 @@ function upstreamFailure(e, url) {
   if (e?.name === "TimeoutError" || e?.name === "AbortError") {
     return new Error(`upstream timed out after ${TIMEOUT_MS / 1000}s; retry or narrow the request`);
   }
-  const code = e?.cause?.code;
+  const code = errorCode(e);
   return new Error(`${e?.message || String(e)}: ${url}${code ? ` (${code})` : ""}`);
+}
+
+/** First error code in a fetch cause chain, including AggregateError members (multi-address connects). */
+function errorCode(e, seen = new Set()) {
+  if (!e || typeof e !== "object" || seen.has(e)) return undefined;
+  seen.add(e);
+  if (typeof e.code === "string") return e.code;
+  for (const inner of [e.cause, ...(Array.isArray(e.errors) ? e.errors : [])]) {
+    const code = errorCode(inner, seen);
+    if (code) return code;
+  }
+  // Some runtimes only put the errno in the message, e.g. "connect ECONNREFUSED 127.0.0.1:1".
+  return /\b(E[A-Z]{4,}|UND_ERR_[A-Z_]+)\b/.exec(e.message ?? "")?.[1];
 }
 
 async function request(url, body) {
@@ -1352,5 +1365,6 @@ rl.on("line", (line) => {
   p.finally(() => pending.delete(p));
 });
 rl.on("close", () => {
-  Promise.allSettled([...pending]).then(() => process.exit(0));
+  // Flush stdout (async when piped on macOS) before exiting so the last response is not dropped.
+  Promise.allSettled([...pending]).then(() => process.stdout.write("", () => process.exit(0)));
 });
