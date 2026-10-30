@@ -30,7 +30,7 @@ Marketing (no API catalog): https://institutional.polymarket.com/
 | `Activity` / `Trade` | Data API wallet activity & fills |
 | `Holder` / `OpenInterest` / `LiveVolume` / `Value` | Data API analytics |
 | `LeaderboardEntry` | Trader leaderboard row |
-| `GeoBlock` | IP eligibility probe |
+| `GeoBlock` | Trading eligibility of this machine's IP: `{blocked, country}` (IP and region are dropped) |
 
 Model: event → markets → YES/NO outcome tokens. Use `token_id` from Gamma `clobTokenIds` on CLOB. Prefer Gamma for discovery; CLOB for live book; Data API for wallet/market analytics (`user` = 0x address in query).
 
@@ -41,6 +41,21 @@ Copy to `~/.cursor/plugins/local/polymarket-info` (real directory), Reload Windo
 ## Install (Claude Code)
 
 Clone this repo, then start Claude Code with `claude --plugin-dir /path/to/polymarket-plugin`. `.claude-plugin/plugin.json` loads the skill and starts the MCP server with `node ${CLAUDE_PLUGIN_ROOT}/server/index.mjs`. The server has no dependencies, so it needs only Node on `PATH` and no `npm install`.
+
+## Output
+
+- Results are compact JSON text with no `structuredContent`.
+- Lists return `{total, returned, offset, truncated, items}` with `next_offset` (or `next_cursor` for keyset/CLOB pages) when more remain. Default `limit` is 50 (10 for `list_events`, 20 for `list_holders`) and every response is capped at 40,000 characters.
+- `list_markets`, `list_events`, `search`, `get_event` and `get_series` default to `response_format: "concise"` (about 12 market fields; events keep their top 5 markets). Pass `"detailed"` for every upstream field. `get_market` defaults to detailed.
+- `list_markets` and `list_events` default to open markets ending after now, sorted by 24h volume.
+- Upstream and validation errors come back as tool results with `isError: true`, the upstream reason, and a hint.
+- Results with market copy or user profiles start with a one-line note that those fields are third-party text.
+
+Env: `POLYMARKET_TIMEOUT_MS` (default 15000) bounds every upstream call. `POLYMARKET_GAMMA_URL`, `POLYMARKET_CLOB_URL`, `POLYMARKET_DATA_URL` and `POLYMARKET_GEOBLOCK_URL` override the hosts (the smoke test points them at a local mock).
+
+## Test
+
+`npm test` runs `test/smoke.mjs`; see `PROVE.md` for what it checks.
 
 ## MCP tools (43)
 
