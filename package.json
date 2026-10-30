@@ -1,7 +1,10 @@
 {
   "name": "polymarket-info",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "Zero-dep stdio MCP for Polymarket Gamma + CLOB + Data API public reads"
+  "description": "Zero-dep stdio MCP for Polymarket Gamma + CLOB + Data API public reads",
+  "scripts": {
+    "test": "node test/smoke.mjs"
+  }
 }

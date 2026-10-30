@@ -1,0 +1,20 @@
+name: smoke
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Daily run catches upstream API drift.
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test

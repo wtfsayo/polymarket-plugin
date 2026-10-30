@@ -1,6 +1,6 @@
 {
   "name": "polymarket-info",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Read-only Polymarket international Info — Gamma discovery + CLOB books/prices + Data API positions/trades/holders. No order signing. Not Polymarket US exchange.",
   "author": {
     "name": "Sayo",
