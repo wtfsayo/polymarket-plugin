@@ -1,0 +1,21 @@
+{
+  "name": "polymarket-info",
+  "version": "0.2.0",
+  "description": "Read-only Polymarket international Info — Gamma discovery + CLOB books/prices + Data API positions/trades/holders. No order signing. Not Polymarket US exchange.",
+  "author": {
+    "name": "Sayo",
+    "email": "hi@sayo.wtf",
+    "url": "https://github.com/wtfsayo"
+  },
+  "homepage": "https://docs.polymarket.com/",
+  "repository": "https://github.com/wtfsayo/polymarket-plugin",
+  "license": "MIT",
+  "keywords": ["polymarket", "prediction-markets", "gamma", "clob", "data-api", "mcp"],
+  "mcpServers": {
+    "polymarket-info": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/server/index.mjs"]
+    }
+  }
+}

@@ -38,6 +38,10 @@ Model: event → markets → YES/NO outcome tokens. Use `token_id` from Gamma `c
 
 Copy to `~/.cursor/plugins/local/polymarket-info` (real directory), Reload Window.
 
+## Install (Claude Code)
+
+Clone this repo, then start Claude Code with `claude --plugin-dir /path/to/polymarket-plugin`. `.claude-plugin/plugin.json` loads the skill and starts the MCP server with `node ${CLAUDE_PLUGIN_ROOT}/server/index.mjs`. The server has no dependencies, so it needs only Node on `PATH` and no `npm install`.
+
 ## MCP tools (43)
 
 ### Gamma
