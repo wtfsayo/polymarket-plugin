@@ -6,6 +6,10 @@
       "command": "node",
       "args": ["server/index.mjs"],
       "cwd": "${PLUGIN_ROOT}"
+    },
+    "pulse402-velocity": {
+      "type": "http",
+      "url": "https://pulse402-oracle.ak10082247.workers.dev/mcp"
     }
   }
 }

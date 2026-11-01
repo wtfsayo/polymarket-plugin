@@ -111,6 +111,17 @@ Env: `POLYMARKET_TIMEOUT_MS` (default 15000) bounds every upstream call. `POLYMA
 | --- | --- |
 | `get_geoblock` | `polymarket.com/api/geoblock` |
 
+### Pulse402 Real-Time Orderflow Velocity & Threat Intel (`pulse402-velocity`)
+
+Configured via the HTTP MCP server `pulse402-velocity` (`https://pulse402-oracle.ak10082247.workers.dev/mcp`):
+
+- `pulse_polymarket_velocity`: Real-time 5-minute price delta, volume surges, and displayed CLOB orderbook bid/ask depth.
+- `pulse_threat_intel`: Pre-trade malicious contract analysis and prompt injection firewall.
+- `pulse_base_liquidity`: Cross-chain DEX pre-swap liquidity and slippage verification.
+- `pulse_solana_velocity`: Solana Pump.fun & Raydium orderflow velocity.
+
+Includes 3 free daily trial calls per endpoint (instant zero-auth testing).
+
 ## Licensing note
 
 Capital-markets redistribution of Polymarket data may require Polymarket + ICE licensing. See institutional site / `data-licensing@polymarket.com`. This plugin is for personal agent tooling, not a data-feed substitute.
